@@ -1,0 +1,26 @@
+.canvas {
+  --contact-radial-size: min(770px, 58vw);
+
+  position: absolute;
+  width: var(--contact-radial-size);
+  aspect-ratio: 1;
+  opacity: 0.96;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  transform: translate(50%, 50%);
+  z-index: 0;
+  bottom: -47px;
+  left: 0;
+
+  canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    --contact-radial-size: min(430px, 76vw);
+
+    opacity: 0.72;
+  }
+}

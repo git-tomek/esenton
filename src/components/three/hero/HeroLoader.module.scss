@@ -1,0 +1,135 @@
+@use "abstracts" as *;
+
+// Registering --hl-progress as a number lets the ring fill animate smoothly
+// instead of snapping between drei's discrete progress steps.
+@property --hl-progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+// Overlay fills the canvas layer (its positioned ancestor) and centres the
+// badge over the 3D scene, to the right of the hero copy.
+.root {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.hidden {
+  opacity: 0;
+  transform: scale(0.94);
+}
+
+.badge {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+}
+
+.ring {
+  --hl-progress: 0;
+  --size: 4.75rem;
+  --thickness: 0.3125rem;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  // Donut: a centre disc (matching the hero background) punched out of a
+  // conic gradient that sweeps blue → green up to the progress angle, with a
+  // faint navy track filling the remainder.
+  background:
+    radial-gradient(
+      closest-side,
+      #f2f3f6 calc(100% - var(--thickness) - 1px),
+      transparent calc(100% - var(--thickness)) 100%
+    ),
+    conic-gradient(
+      from -90deg,
+      var(--color-tm-blue),
+      var(--color-tm-green) calc(var(--hl-progress) * 1%),
+      rgba(42, 61, 122, 0.12) 0
+    );
+  filter: drop-shadow(0 0.625rem 1.5rem rgba(10, 69, 219, 0.18));
+  transition: --hl-progress 0.5s ease;
+}
+
+.spin {
+  animation: heroLoaderSpin 0.9s linear infinite;
+}
+
+@keyframes heroLoaderSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.value {
+  color: var(--color-tm-navy);
+  font-size: 1rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.label {
+  display: inline-flex;
+  color: var(--color-tm-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+// Animated trailing ellipsis on the label.
+.dots {
+  display: inline-block;
+  width: 1em;
+  text-align: left;
+
+  &::after {
+    content: "";
+    animation: heroLoaderDots 1.4s steps(4, end) infinite;
+  }
+}
+
+@keyframes heroLoaderDots {
+  0% {
+    content: "";
+  }
+  25% {
+    content: ".";
+  }
+  50% {
+    content: "..";
+  }
+  75% {
+    content: "...";
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    transition: opacity 0.2s linear;
+  }
+
+  .ring {
+    transition: none;
+  }
+
+  .spin {
+    animation: none;
+  }
+
+  .dots::after {
+    content: "…";
+    animation: none;
+  }
+}

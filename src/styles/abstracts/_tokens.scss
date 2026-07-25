@@ -1,0 +1,44 @@
+// Design tokens.
+// The canonical values live in src/app/globals.css.
+// Tailwind utilities use @theme, and SCSS modules reference runtime
+// CSS custom properties exposed on :root.
+
+// Colors
+$color-navy: var(--color-tm-navy);
+$color-navy-dark: var(--color-tm-navy-dark);
+$color-blue: var(--color-tm-blue);
+$color-blue-dark: var(--color-tm-blue-dark);
+$color-blue-darker: var(--color-tm-blue-darker);
+$color-blue-soft: var(--color-tm-blue-soft);
+$color-blue-light: var(--color-tm-blue-light);
+$color-green: var(--color-tm-green);
+$color-green-soft: var(--color-tm-green-soft);
+$color-green-highlight: var(--color-tm-green-highlight);
+$color-cream: var(--color-tm-cream);
+$color-cream-soft: var(--color-tm-cream-soft);
+$color-text: var(--color-tm-text);
+$color-muted: var(--color-tm-muted);
+$color-muted-dark: var(--color-tm-muted-dark);
+$color-bg: var(--color-tm-background);
+$color-surface: var(--color-tm-surface);
+$color-border: var(--color-tm-border);
+$color-border-soft: var(--color-tm-border-soft);
+
+// Radii
+$radius-sm: var(--radius-tm-sm);
+$radius-md: var(--radius-tm-md);
+$radius-lg: var(--radius-tm-lg);
+$radius-xl: var(--radius-tm-xl);
+
+// Shadows
+$default-shadow: var(--shadow-tm-default-shadow);
+$card-shadow: var(--shadow-tm-card-shadow);
+
+// Layout
+$container-max: 1200px;
+$container-px: 24px;
+
+// Z-index scale
+$z-header: 50;
+$z-overlay: 60;
+$z-toast: 70;

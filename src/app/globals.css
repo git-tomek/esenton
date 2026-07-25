@@ -1,0 +1,58 @@
+@layer theme, base, mui, components, utilities;
+@import "tailwindcss";
+
+/*
+ * Design tokens are auto-generated from src/theme/tokens.json
+ * by scripts/sync-tokens.mjs (runs as `predev` and `prebuild`).
+ * Edit src/theme/tokens.json — never the generated CSS.
+ */
+@import "../styles/tokens.generated.css";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-tm-background);
+  color: var(--color-tm-text);
+  font-family: var(--font-tm-sans);
+}
+
+h1,
+h2,
+h1[class],
+h2[class] {
+  background-image:
+    linear-gradient(
+      135deg,
+      var(--color-tm-navy-dark) 0%,
+      var(--color-tm-blue) 52%,
+      var(--color-tm-green) 100%
+    );
+  background-image:
+    linear-gradient(
+      to bottom right in oklab,
+      var(--color-tm-navy-dark) 0%,
+      var(--color-tm-blue) 52%,
+      var(--color-tm-green) 100%
+    );
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+h1 [class],
+h2 [class] {
+  color: inherit;
+  -webkit-text-fill-color: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(11, 102, 216, 0.16);
+}

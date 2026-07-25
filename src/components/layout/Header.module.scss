@@ -1,0 +1,217 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  border-bottom: 1px solid var(--color-tm-border);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0);
+  transition:
+    background 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.headerScrolled {
+  box-shadow: 0 18px 48px rgba(15, 23, 42, 0.08);
+}
+
+.topBar {
+  display: none;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.64);
+  background: rgba(248, 250, 252, 0.76);
+}
+
+.topBarInner {
+  display: flex;
+  height: 2rem;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.75rem;
+  color: var(--color-tm-navy);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.contactItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.mainBar {
+  display: flex;
+  height: 5.375rem;
+  align-items: center;
+  justify-content: space-between;
+  transition: height 220ms ease;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+}
+
+.logoHeader {
+  width: auto;
+  height: 62px;
+  transition: height 220ms ease;
+}
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: 2.25rem;
+  transition: gap 220ms ease;
+}
+
+.navLink {
+  color: var(--color-tm-navy);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 180ms ease;
+
+  &:hover {
+    color: var(--color-tm-blue);
+  }
+}
+
+.serviceMenu {
+  position: relative;
+}
+
+.serviceButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 0;
+  border-radius: var(--radius-tm-md);
+  background: var(--color-tm-blue-soft);
+  padding: 0.5rem 1rem;
+  color: var(--color-tm-blue);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    padding 220ms ease;
+}
+
+.serviceChevron {
+  transition: transform 180ms ease;
+}
+
+.serviceDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  width: 330px;
+  padding-top: 0.75rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
+.servicePanel {
+  padding: 0.75rem;
+  border: 1px solid var(--color-tm-border);
+  border-radius: var(--radius-tm-lg);
+  background: #fff;
+  box-shadow: var(--shadow-tm-default-shadow);
+  transform: translateY(0.25rem);
+  transition: transform 200ms ease;
+}
+
+.serviceMenu:hover {
+  .serviceButton {
+    background: var(--color-tm-blue);
+    color: #fff;
+  }
+
+  .serviceChevron {
+    transform: rotate(180deg);
+  }
+
+  .serviceDropdown {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .servicePanel {
+    transform: translateY(0);
+  }
+}
+
+.serviceLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 10px;
+  padding: 0.75rem;
+  color: var(--color-tm-navy);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
+
+  &:hover {
+    background: var(--color-tm-blue-soft);
+    color: var(--color-tm-blue);
+  }
+}
+
+.cta {
+  display: none !important;
+  transform-origin: right center;
+  transition:
+    transform 220ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    color 180ms ease !important;
+}
+
+.headerScrolled {
+  .mainBar {
+    height: 4rem;
+  }
+
+  .logoHeader {
+    height: 40.3px;
+  }
+
+  .nav {
+    gap: 1.45rem;
+  }
+
+  .serviceButton {
+    padding: 0.375rem 0.75rem;
+  }
+
+  .cta {
+    transform: scale(0.75);
+  }
+}
+
+@media (min-width: 640px) {
+  .cta {
+    display: inline-flex !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .topBar {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav {
+    display: flex;
+  }
+}

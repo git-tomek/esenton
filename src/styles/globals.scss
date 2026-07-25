@@ -1,0 +1,5 @@
+// SCSS entry point imported in src/app/layout.tsx AFTER globals.css.
+// Tailwind + @theme tokens come from globals.css; this file layers in
+// SCSS-driven globals and base rules.
+
+@use 'base';

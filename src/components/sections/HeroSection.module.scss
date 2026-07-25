@@ -1,0 +1,227 @@
+@use "abstracts" as *;
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 100vh;
+  background: #f2f3f6;
+}
+
+// Readability scrim: solid on the left, smoothly fading to transparent on the
+// right so the hero copy stays legible over the 3D scene. Sits above the
+// canvas (z-index 0) but below the content (z-index 2).
+// Mobile/tablet defaults cover more of the width since the static hero image
+// fills the whole viewport; desktop relaxes the scrim around the 3D scene.
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    #f2f3f6 0%,
+    #f2f3f6 55%,
+    rgba(242, 243, 246, 0.7) 75%,
+    rgba(242, 243, 246, 0) 100%
+  );
+
+  @include up(md) {
+    background: linear-gradient(
+      to right,
+      #f2f3f6 0%,
+      #f2f3f6 35%,
+      rgba(242, 243, 246, 0.78) 55%,
+      rgba(242, 243, 246, 0.2) 75%,
+      rgba(242, 243, 246, 0) 90%
+    );
+  }
+
+  @include up(lg) {
+    background: linear-gradient(
+      to right,
+      #f2f3f6 0%,
+      #f2f3f6 18%,
+      rgba(242, 243, 246, 0.85) 28%,
+      rgba(242, 243, 246, 0.4) 36%,
+      rgba(242, 243, 246, 0) 44%
+    );
+  }
+}
+
+.canvasLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// Desktop: anchor the 3D canvas to the right so narrowing the window
+// clips the less important left side (wall) first, keeping desk + mug in view.
+@include up(lg) {
+  .canvasLayer {
+    left: auto;
+    right: 0;
+    width: max(100%, 1800px);
+  }
+}
+
+// Static hero image shown on mobile + tablet (below `lg`) in place of the
+// Three.js canvas, so the 3D bundle never loads on smaller devices.
+// Hidden on desktop (`lg+`): the canvas briefly renders this placeholder
+// before `useMediaQuery` swaps in the 3D scene, and `display: none` keeps the
+// browser from ever downloading/painting the JPEG there — so desktop waits on
+// just the loader + Three.js scene instead of flashing the static image first.
+.heroPlaceholder {
+  position: absolute;
+  inset: 0;
+  background-image: url("/images/bg-hero.jpg");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
+
+  @include up(lg) {
+    display: none;
+  }
+}
+
+.inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  min-height: 100vh;
+  align-items: center;
+  gap: 0;
+  padding-top: 9.5rem;
+  padding-bottom: 4.25rem;
+  // Full-width layout keeps copy in place; clicks pass through to the canvas.
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 430px;
+  pointer-events: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+  border-radius: 999px;
+  background: var(--color-tm-blue-soft);
+  padding: 0.375rem 1rem;
+  color: var(--color-tm-blue);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 30px;
+}
+
+.title {
+  max-width: 48rem;
+  color: var(--color-tm-navy);
+  font-size: 33px;
+  font-weight: 800;
+  line-height: 1.02;
+  margin: 0 0 40px;
+}
+
+.titleAccent {
+  color: var(--color-tm-blue);
+}
+
+.lead {
+  max-width: 35rem;
+  margin-top: 1.5rem;
+  color: var(--color-tm-muted);
+  font-size: 1.125rem;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.benefits {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem 2rem;
+  margin-top: 2.25rem;
+}
+
+.benefit {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-tm-navy);
+  font-size: 12px;
+  font-weight: 700;
+  background: #f5deb378;
+  padding: 5px;
+  border-radius: 4px;
+  border: 1px solid #0a45db;
+}
+
+.benefitIcon {
+  color: var(--color-tm-green);
+}
+
+.highlightWrap {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+
+  &::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    background: url("/images/highlight.svg") center / contain no-repeat;
+    width: calc(100%);
+    height: 0.5em;
+    bottom: -19px;
+    right: -90px;
+  }
+}
+
+.highlightLabel {
+  position: relative;
+  z-index: 1;
+  background-image: linear-gradient(
+    to bottom right in oklab,
+    var(--color-tm-navy-dark) 0%,
+    var(--color-tm-blue) 52%,
+    var(--color-tm-green) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+  }
+
+  .benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@include up(lg) {
+  .inner {
+    padding-top: 8.5rem;
+  }
+
+  .content {
+    max-width: 430px;
+  }
+}
