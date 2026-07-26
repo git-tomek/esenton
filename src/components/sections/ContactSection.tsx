@@ -19,7 +19,7 @@ const ContactWaves = dynamic(
   { ssr: false },
 );
 
-const WEB3FORMS_ACCESS_KEY = "024725c4-a6c5-4426-886f-a763565c6c96";
+const WEB3FORMS_ACCESS_KEY = "638d9802-6e34-43e0-b77c-301415c47035";
 
 type Status = "idle" | "submitting" | "success" | "error";
 

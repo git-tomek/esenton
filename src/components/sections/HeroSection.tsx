@@ -20,19 +20,19 @@ export function HeroSection() {
       <Container className={styles.inner}>
         <div className={styles.content}>
           <div className={styles.eyebrow}>
-            esenton – studio interaktywne
+            Projektowanie i development
           </div>
           <h1 className={styles.title}>
-          Strony, sklepy i aplikacje webowe,{" "}
+          Projektujemy i wdrażamy strony,{" "}
             <span className={styles.titleAccent}>
-            które{" "}
+            sklepy internetowe oraz aplikacje webowe{" "}
               <span className={styles.highlightWrap}>
-                <span className={styles.highlightLabel}>pracują na Twój biznes.</span>
+                <span className={styles.highlightLabel}>dla firm.</span>
               </span>
             </span>
           </h1>
           <p className={styles.lead}>
-          Projektujemy i wdrażamy strony internetowe, sklepy oraz aplikacje webowe dla małych i średnich firm. Od pierwszej rozmowy po opiekę techniczną.
+          Prowadzimy cały projekt — od analizy i UX/UI, przez frontend i backend, po integracje, wdrożenie oraz dalszy rozwój.
           </p>
           <div className={styles.actions}>
             <Button

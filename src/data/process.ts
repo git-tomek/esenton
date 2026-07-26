@@ -23,7 +23,7 @@ export const processSteps: readonly ProcessStep[] = [
   {
     title: 'Zakres i rekomendacje',
     description:
-      'Porządkujemy wymagania, priorytety, ryzyka, budżet oraz technologię potrzebną do stabilnego wdrożenia.',
+      'Definiujemy wymagania, priorytety, ryzyka, budżet oraz technologię potrzebną do stabilnego wdrożenia.',
     icon: Search,
   },
   {

@@ -15,21 +15,21 @@ export type WhyUsItem = {
 
 export const whyUs: readonly WhyUsItem[] = [
   {
-    title: 'Jakość techniczna',
+    title: 'Stabilne rozwiązania',
     description:
-      'Tworzymy szybkie, skalowalne i łatwe w utrzymaniu rozwiązania, gotowe do rozwóju.',
+      'Tworzymy szybkie, skalowalne, bezpieczne i łatwe w utrzymaniu rozwiązania, przygotowane do dalszego rozwoju.',
     icon: SparklesIcon,
   },
   {
     title: 'Jasna komunikacja',
     description:
-      'Określamy zakres prac, harmonogram, koszty i decyzje technologiczne, bez niepotrzebnych niespodzianek.',
+      'Jasno ustalamy zakres, terminy i koszty. Na każdym etapie omawiamy najważniejsze decyzje.',
     icon: UserCircleIcon,
   },
   {
     title: 'Pełny zakres kompetencji',
     description:
-      'Łączymy UX/UI, frontend, backend, integracje API, bazy danych i wdrożenia produkcyjne.',
+      'Prowadzimy projekt od UX/UI, przez frontend i backend, aż po integracje, wdrożenie i dalszy rozwój.',
     icon: CodeBracketIcon,
   },
 ] as const;

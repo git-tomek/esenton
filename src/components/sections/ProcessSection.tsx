@@ -273,7 +273,7 @@ export function ProcessSection() {
                 />
               </svg>
             </div>
-            <p className={styles.workLabel}>Jak pracujemy</p>
+            <p className={styles.workLabel}>Każdy projekt dzielimy na czytelne etapy. Przed rozpoczęciem prac znasz zakres oraz plan działania.</p>
           </div>
         </div>
 

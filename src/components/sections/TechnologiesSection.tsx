@@ -387,10 +387,10 @@ export function TechnologiesSection() {
             <div className={styles.headerCopy}>
               <p className={styles.eyebrow}>Technologie</p>
               <h2 className={styles.sectionTitle}>
-              Technologie dobieramy do celu, nie do trendu.
+              Technologie dobrane do projektu.
               </h2>
               <p className={styles.sectionDescription}>
-              Pracujemy w sprawdzonym stacku: React, Next.js, TypeScript, Node.js, PHP, MySQL, WordPress, WooCommerce, Laravel, Docker i AWS. Narzędzia dobieramy pod cele projektu, utrzymanie, wydajność i dalszy rozwój.
+              Nie zaczynamy od wyboru technologii. Najpierw poznajemy cele i wymagania projektu, a następnie dobieramy rozwiązania, które zapewnią wydajność, bezpieczeństwo i możliwość dalszego rozwoju.
               </p>
             </div>
 
