@@ -27,7 +27,7 @@ export function HeroSection() {
             <span className={styles.titleAccent}>
             sklepy internetowe oraz aplikacje webowe{" "}
               <span className={styles.highlightWrap}>
-                <span className={styles.highlightLabel}>dla firm.</span>
+                <span className={styles.highlightLabel}>dla firm i instytucji.</span>
               </span>
             </span>
           </h1>

@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "esenton - studio interaktywne | Strony internetowe i aplikacje webowe",
   description:
-    "Tworzymy strony internetowe, aplikacje webowe, sklepy WooCommerce, systemy CRM/ERP, integracje API i dedykowane oprogramowanie dla firm.",
+    "Tworzymy strony internetowe, aplikacje webowe, sklepy WooCommerce, systemy CRM/ERP, integracje API i dedykowane oprogramowanie dla firm i instytucji.",
 };
 
 export default function RootLayout({
