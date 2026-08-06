@@ -4,11 +4,11 @@
   <defs>
     <style>
       .st0 {
-        fill: ##DCE9FE;
+        fill: #DCE9FE;
       }
 
       .st1, .st2, .st3, .st4 {
-        fill: ##DCE9FE;
+        fill: #DCE9FE;
       }
 
       .st2 {
@@ -16,7 +16,7 @@
       }
 
       .st2, .st5, .st3, .st6, .st7, .st4, .st8 {
-        stroke: ##DCE9FE;
+        stroke: #DCE9FE;
       }
 
       .st2, .st3, .st7, .st4, .st8 {
