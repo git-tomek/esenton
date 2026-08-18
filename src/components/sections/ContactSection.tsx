@@ -70,13 +70,13 @@ export function ContactSection() {
               </p>
               <div className={styles.contactList}>
                 <a
-                  href="mailto:biuro@esenton.pl"
+                  href="mailto:info@esenton.pl"
                   className={styles.contactItem}
                 >
                   <ContactIcon icon={<EmailOutlined />} />
                   <div>
                     <div className={styles.contactValue}>
-                      biuro@esenton.pl
+                      info@esenton.pl
                     </div>
                     <div className={styles.contactLabel}>Napisz do nas</div>
                   </div>

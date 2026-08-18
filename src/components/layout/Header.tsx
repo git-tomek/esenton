@@ -83,11 +83,11 @@ export function Header() {
             707 123 007
           </a>
           <a
-            href="mailto:biuro@esenton.pl"
+            href="mailto:info@esenton.pl"
             className={styles.contactItem}
           >
             <EmailOutlined sx={{ fontSize: 16 }} color="primary" />
-            biuro@esenton.pl
+            info@esenton.pl
           </a>
         </Container>
       </div>

@@ -91,15 +91,8 @@ export function Footer() {
             </a>
             <span className={styles.contactItem}>
               <EmailOutlined className={styles.contactIcon} />
-              biuro@esenton.pl
+              info@esenton.pl
             </span>
-            <Image
-              src="/images/signature.svg"
-              alt="signature"
-              width={557}
-              height={142}
-              className={styles.signature}
-            />
           </FooterColumn>
         </div>
         <div className={styles.bottomBar}>
