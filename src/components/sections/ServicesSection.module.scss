@@ -89,10 +89,19 @@ $highlight-overhang: 30px;
   display: grid;
   align-items: stretch;
   grid-auto-rows: auto;
-  gap: 42px 30px;
+  // The decorative tab hangs 25px above each card, so the row gap can never
+  // drop below ~34px or a tab lands on the card above it.
+  gap: 38px 12px;
+
+  // Two per row as soon as there is room. `minmax(0, …)` keeps the tracks from
+  // being widened by their content, which is what stops the cards overflowing
+  // on a 360px screen.
+  @media (min-width: 360px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 
   @media (min-width: 600px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 42px 30px;
   }
 
   @media (min-width: 1200px) {
@@ -146,13 +155,21 @@ $highlight-overhang: 30px;
 
 .serviceCardTab {
   position: absolute;
-  width: 123px;
+  // Half-width cards can't carry the full 123px tab — it would run most of the
+  // way across the card. The offset scales with the width so the notch still
+  // lines up with the card's top edge.
+  width: 96px;
   height: auto;
   pointer-events: none;
   user-select: none;
   z-index: 2;
-  top: -25px;
+  top: -20px;
   left: -1px;
+
+  @media (min-width: 600px) {
+    width: 123px;
+    top: -25px;
+  }
 }
 
 .serviceShowcaseContent {
@@ -181,23 +198,35 @@ $highlight-overhang: 30px;
   justify-content: flex-start;
   min-width: 0;
   flex-direction: column;
-  align-items: flex-start;
-  padding: 42px 0 20px 15px;
+  // Stacked cards centre their copy over the illustration below it; the
+  // side-by-side desktop layout goes back to a left-aligned column.
+  align-items: center;
+  padding: 36px 15px 15px;
+  text-align: center;
 
   @include up(lg) {
+    align-items: flex-start;
     padding: 42px 0 20px 15px;
+    text-align: left;
   }
 }
 
 .serviceShowcaseIcon {
   position: absolute;
-  top: -12px;
-  left: 14px;
+  top: -11px;
+  left: 12px;
   z-index: 3;
   display: grid;
-  width: 37px;
-  height: 37px;
+  width: 34px;
+  height: 34px;
   place-items: center;
+
+  @media (min-width: 600px) {
+    top: -12px;
+    left: 14px;
+    width: 37px;
+    height: 37px;
+  }
   color: $color-blue;
   pointer-events: none;
   border-radius: 8px;
@@ -207,49 +236,65 @@ $highlight-overhang: 30px;
 .serviceShowcaseTitle {
   margin: 0;
   color: $color-navy;
-  font-size: 17px;
+  // Two cards share the width of a phone, so the heading has to shrink a little
+  // before it starts wrapping into four lines. Desktop keeps the designed 17px.
+  font-size: clamp(13.5px, 3.9vw, 17px);
   font-weight: 800;
-  line-height: 1.04;
+  line-height: 1.12;
   letter-spacing: -0.03em;
+  text-wrap: balance;
 
   @include up(lg) {
     max-width: 190px;
+    font-size: 17px;
+    line-height: 1.04;
   }
 }
 
 .serviceShowcaseDescription {
-  margin: 9px 0 0;
+  margin: 7px 0 0;
   color: $color-muted;
-  font-size: 12.5px;
+  font-size: clamp(11px, 3.05vw, 12.5px);
   font-weight: 700;
-  line-height: 1.45;
+  line-height: 1.4;
 
   @include up(lg) {
     max-width: 190px;
+    font-size: 12.5px;
+    line-height: 1.45;
   }
 }
 
 .serviceShowcaseImageWrap {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   min-width: 0;
   min-height: 0;
-  padding: 0 18px 18px;
+  padding: 0 15px 15px;
 
   &::before {
     position: absolute;
-    top: auto;
-    right: -36px;
-    bottom: -36px;
-    width: 150px;
-    height: 150px;
+    // Centred on the illustration. The artwork sits in the content box, which
+    // is 15px shorter than the padding box this circle resolves against, so
+    // half that padding has to come off the centre point.
+    top: calc(50% - 7.5px);
+    left: 50%;
+    bottom: auto;
+    // Sized from the wrapper's height, never its width. Cards in a row share a
+    // height, so a short image area can be as little as 91px tall — sizing the
+    // disc from the width made it overflow that box and `overflow: hidden`
+    // sliced it flat along the bottom edge of the card.
+    height: 92%;
+    width: auto;
+    max-width: 100%;
+    aspect-ratio: 1;
     content: "";
     border-radius: 100%;
     background: #deeafd;
-    transform: none;
+    transform: translate(-50%, -50%);
   }
 
   @include up(lg) {
@@ -260,9 +305,12 @@ $highlight-overhang: 30px;
     &::before {
       top: 50%;
       right: -44px;
+      left: auto;
       bottom: auto;
       width: 150px;
+      max-width: none;
       height: 150px;
+      aspect-ratio: auto;
       transform: translateY(-50%);
     }
   }
@@ -271,10 +319,14 @@ $highlight-overhang: 30px;
 .serviceShowcaseImage {
   position: relative;
   z-index: 1;
-  width: min(220px, 70%);
-  max-height: 180px;
+  // Fills the stacked card instead of sitting at 70% in one corner, which is
+  // what left the large empty area above and to the left of the illustration.
+  // The cap stops a wide tablet card from stretching the box far past the
+  // artwork, which `object-fit: contain` would just letterbox back into place.
+  width: 100%;
+  max-width: 220px;
+  max-height: 150px;
   height: auto;
-  max-width: 100%;
   object-fit: contain;
   filter: drop-shadow(0 24px 28px rgba(34, 73, 150, 0.14));
   user-select: none;

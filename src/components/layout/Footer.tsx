@@ -46,13 +46,7 @@ export function Footer() {
             Esenton pomaga firmom rozwijać i budować solidne zaplecze technologiczne.
             </p>
             <div className={styles.planeWrap} aria-hidden="true">
-              <Image
-                src="/images/plane.svg"
-                alt=""
-                width={56}
-                height={81}
-                className={styles.plane}
-              />
+              <span className={styles.plane} />
             </div>
           </div>
           <div>
@@ -133,6 +127,13 @@ function FooterColumn({
       <h3 className={styles.columnTitle}>{title}</h3>
       <div className={styles.contactList}>
         {children}
+      </div>
+      <div className={styles.sloganWrap}>
+        <span
+          role="img"
+          aria-label="zróbmy coś pięknego"
+          className={styles.slogan}
+        />
       </div>
     </div>
   );

@@ -186,7 +186,7 @@ export function ServicesSection() {
                           srcset comes from scripts/optimize-images.mjs. */}
                       <img
                         {...showcaseImageSources(showcase.image)}
-                        sizes="(min-width: 1200px) 270px, (min-width: 600px) 36vw, 58vw"
+                        sizes="(min-width: 1200px) 270px, (min-width: 600px) 36vw, (min-width: 360px) 45vw, 85vw"
                         alt=""
                         aria-hidden
                         width={showcase.imageWidth}

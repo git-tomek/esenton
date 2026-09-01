@@ -1,7 +1,6 @@
 'use client';
 
 import type { CSSProperties } from 'react';
-
 import styles from './HeroLoader.module.scss';
 
 /*
@@ -47,7 +46,7 @@ export function HeroLoader({
           {!indeterminate && <span className={styles.value}>{value}%</span>}
         </div>
         <span className={styles.label}>
-          {indeterminate ? 'Starting up' : 'Loading workspace'}
+          {indeterminate ? 'Uruchamianie' : 'Ładowanie przestrzeni'}
           <span className={styles.dots} aria-hidden />
         </span>
       </div>

@@ -1,5 +1,32 @@
 @use "abstracts" as *;
 
+// Both footer artworks are single-colour SVGs, so they are used as masks and the
+// brand gradient shows through the shape. This can't be a fill inside the files:
+// an SVG loaded as an image is an isolated document, so the --color-tm-* custom
+// properties never reach into it.
+//
+// The gradient fades one colour into a translucent version of itself, so the
+// navy behind it tints the tail rather than a second hue fighting the footer's
+// own blue background.
+@mixin footer-artwork($src) {
+  display: block;
+  background-image: linear-gradient(
+    135deg,
+    var(--color-tm-blue-light) 0%,
+    rgba(220, 233, 254, 0.68) 100%
+  );
+  // Interpolating in oklab keeps the mid-tones from going grey, the same way
+  // the headline gradient in globals.css does. Declared second so browsers
+  // without oklab or color-mix support keep the sRGB version above.
+  background-image: linear-gradient(
+    to bottom right in oklab,
+    var(--color-tm-blue-light) 0%,
+    color-mix(in srgb, var(--color-tm-blue-light) 68%, transparent) 100%
+  );
+  mask: url($src) no-repeat center / contain;
+  -webkit-mask: url($src) no-repeat center / contain;
+}
+
 .footer {
   position: relative;
   isolation: isolate;
@@ -151,7 +178,7 @@
 .description {
   max-width: 320px;
   margin: 20px 0 0;
-  color: rgba(255, 255, 255, 0.72);
+  color: #b9c6e4;
   font-size: 14px;
   line-height: 1.7;
 }
@@ -159,18 +186,22 @@
 .planeWrap {
   display: flex;
   align-items: center;
-  width: 72px;
+  width: 100%;
   min-height: 110px;
   margin-top: 10px;
-  width: 100%;
   padding-left: 30px;
+  // The shadow lives on the wrapper because a filter on the masked element
+  // would be clipped away by that element's own mask.
+  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.22));
 }
 
 .plane {
-  height: auto;
-  filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.22));
+  @include footer-artwork("/images/plane.svg");
+
   width: 187px;
-  height: auto;
+  // Matches the source viewBox (145.01 x 56.73) — the same ratio the intrinsic
+  // SVG size already resolved to, so the 73px layout height is unchanged.
+  aspect-ratio: 145.01 / 56.73;
   transform: rotate(7deg);
 }
 
@@ -256,6 +287,20 @@
 .contactIcon {
   width: 18px;
   height: 18px;
+}
+
+.sloganWrap {
+  margin-top: 28px;
+}
+
+.slogan {
+  @include footer-artwork("/images/slogan.svg");
+
+  width: 100%;
+  max-width: 121px;
+  // Matches the source viewBox (177.7 x 126.6) so the box keeps the same
+  // height the intrinsic <Image> dimensions used to give it.
+  aspect-ratio: 177.7 / 126.6;
 }
 
 .bottomBar {
