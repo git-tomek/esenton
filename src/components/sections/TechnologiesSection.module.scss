@@ -279,13 +279,21 @@
   }
 }
 
+// Four logo previews plus a "+N" badge. `auto-fit` with a floor lets the row
+// drop to four (and then three) columns on narrow cards instead of squeezing
+// five fixed 44px tiles into ~240px, which used to overlap the logos and
+// crush the labels into unreadable slivers.
 .previewRow {
   position: relative;
   z-index: 1;
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
   align-items: start;
+
+  @media (min-width: 400px) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
 .previewItem {
@@ -310,6 +318,7 @@
 .logoFrame {
   display: grid;
   width: 44px;
+  max-width: 100%;
   height: 44px;
   aspect-ratio: 1;
   place-items: center;
@@ -334,6 +343,7 @@
 .moreBadge {
   display: grid;
   width: 44px;
+  max-width: 100%;
   height: 44px;
   aspect-ratio: 1;
   place-items: center;

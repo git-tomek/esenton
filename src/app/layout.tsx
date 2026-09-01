@@ -4,7 +4,7 @@ import "@/styles/globals.scss";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Inter } from "next/font/google";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ThemeProvider } from "@mui/material/styles";
 import { muiTheme } from "@/theme/mui-theme";
@@ -21,6 +21,17 @@ export const metadata: Metadata = {
   title: "esenton - studio interaktywne | Strony internetowe i aplikacje webowe",
   description:
     "Tworzymy strony internetowe, aplikacje webowe, sklepy WooCommerce, systemy CRM/ERP, integracje API i dedykowane oprogramowanie dla firm i instytucji.",
+};
+
+// `viewportFit: 'cover'` lets the section backgrounds run edge to edge on
+// notched iPhones; Container and Footer pull their padding back out of the
+// safe-area insets so no content ends up underneath the notch in landscape.
+// Zooming stays enabled (no maximumScale) for accessibility.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#f2f3f6",
 };
 
 export default function RootLayout({

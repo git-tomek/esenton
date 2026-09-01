@@ -57,6 +57,11 @@ export const muiTheme = createTheme({
           boxShadow: 'none',
           fontSize: '14px',
           lineHeight: 1.2,
+          // Touch devices need a ~44px minimum hit area; pointer media queries
+          // keep desktop at the designed 42px.
+          '@media (hover: none) and (pointer: coarse)': {
+            minHeight: 46,
+          },
         },
         sizeLarge: {
           minHeight: 48,
@@ -114,6 +119,17 @@ export const muiTheme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: tokens.radius.sm,
             backgroundColor: '#FFFFFF',
+          },
+          // iOS Safari zooms the whole page in when a focused field's text is
+          // under 16px, and never zooms back out. Below the `sm` breakpoint the
+          // inputs are therefore 16px; desktop keeps the designed 14px.
+          '@media (max-width: 599.98px)': {
+            '& .MuiOutlinedInput-input, & .MuiOutlinedInput-inputMultiline': {
+              fontSize: '16px',
+            },
+            '& .MuiInputLabel-root': {
+              fontSize: '16px',
+            },
           },
         },
       },

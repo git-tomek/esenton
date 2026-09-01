@@ -70,8 +70,20 @@
   align-items: center;
   gap: 15px;
   justify-self: start;
+  // `inline-flex` sizes to content, so a long label ("Współpracujemy z firmami
+  // w całym kraju") would otherwise push past the section on a 320px screen.
+  max-width: 100%;
+  min-width: 0;
   color: inherit;
   text-decoration: none;
+
+  > div {
+    min-width: 0;
+  }
+
+  @include touch {
+    min-height: 44px;
+  }
 }
 
 .contactIcon {
@@ -170,6 +182,17 @@
     color: $color-text;
     font-size: 14px;
     font-weight: 650;
+  }
+
+  // Anything under 16px makes iOS Safari zoom the page in on focus and never
+  // zoom back out, which leaves the form scrolled sideways. Phones get 16px;
+  // the designed 14px is kept from `sm` up.
+  @include down(sm) {
+    :global(.MuiOutlinedInput-input),
+    :global(.MuiOutlinedInput-inputMultiline),
+    :global(.MuiInputLabel-root) {
+      font-size: 16px;
+    }
   }
 }
 

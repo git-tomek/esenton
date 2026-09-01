@@ -1,3 +1,5 @@
+@use "abstracts" as *;
+
 .header {
   position: fixed;
   inset: 0 0 auto;
@@ -34,28 +36,62 @@
 }
 
 .contactItem {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
+
+  // The utility bar is only 2rem tall, so on a touch tablet these links would be
+  // an 18px-high target. Grow the hit area with an overlay instead of padding so
+  // the bar keeps its designed height on every device.
+  @include touch {
+    &::after {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 44px;
+      content: "";
+      transform: translateY(-50%);
+    }
+  }
 }
 
 .mainBar {
   display: flex;
-  height: 5.375rem;
+  // Phones get a compact bar; the designed 5.375rem returns with the top bar
+  // at 768px. Keep in sync with `--tm-header-height` in styles/base/_base.scss.
+  height: 4rem;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem;
   transition: height 220ms ease;
+
+  @media (min-width: 768px) {
+    height: 5.375rem;
+  }
 }
 
 .logoLink {
   display: flex;
+  min-width: 0;
   align-items: center;
+
+  // Without the inline nav in the middle, `space-between` would strand the CTA
+  // halfway across the bar — push it and the hamburger together on the right.
+  @media (max-width: 1023.98px) {
+    margin-right: auto;
+  }
 }
 
 .logoHeader {
   width: auto;
-  height: 62px;
+  height: 40px;
   transition: height 220ms ease;
+
+  @media (min-width: 768px) {
+    height: 62px;
+  }
 }
 
 .nav {
@@ -74,6 +110,14 @@
 
   &:hover {
     color: var(--color-tm-blue);
+  }
+
+  // Touch tablets wide enough for the inline nav still need a real hit area.
+  // The main bar is 5.375rem tall, so this grows the link without moving anything.
+  @include touch {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
   }
 }
 
@@ -98,6 +142,10 @@
     background 180ms ease,
     color 180ms ease,
     padding 220ms ease;
+
+  @include touch {
+    min-height: 44px;
+  }
 }
 
 .serviceChevron {
@@ -126,7 +174,12 @@
   transition: transform 200ms ease;
 }
 
-.serviceMenu:hover {
+// `[data-open]` is driven by a click, so the dropdown is reachable on a touch
+// screen and by keyboard; `:hover` and `:focus-within` keep the original
+// pointer and tab behaviour.
+.serviceMenu:hover,
+.serviceMenu:focus-within,
+.serviceMenu[data-open="true"] {
   .serviceButton {
     background: var(--color-tm-blue);
     color: #fff;
@@ -176,13 +229,139 @@
     color 180ms ease !important;
 }
 
+// Hamburger. Shown wherever the inline nav is not, so navigation is never
+// unreachable. 44px square meets the touch-target minimum.
+.menuToggle {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-right: -0.5rem;
+  border: 0;
+  border-radius: var(--radius-tm-md);
+  background: transparent;
+  color: var(--color-tm-navy);
+  cursor: pointer;
+  transition:
+    background 180ms ease,
+    color 180ms ease;
+
+  &:hover {
+    background: var(--color-tm-blue-soft);
+    color: var(--color-tm-blue);
+  }
+
+  @include focus-ring;
+}
+
+.mobilePanel {
+  border-top: 1px solid var(--color-tm-border);
+  background: #fff;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+}
+
+.mobilePanelInner {
+  display: grid;
+  gap: 1rem;
+  // Never taller than what is left of the (small) viewport under the header,
+  // which is what makes the panel usable on a phone in landscape.
+  max-height: calc(100svh - var(--tm-header-height));
+  padding-top: 1.25rem;
+  padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobileNav {
+  display: grid;
+}
+
+.mobileNavLink {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  border-bottom: 1px solid var(--color-tm-border-soft);
+  color: var(--color-tm-navy);
+  font-size: 1rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.mobileGroupTitle {
+  margin: 0.25rem 0 0;
+  color: var(--color-tm-muted);
+  font-size: 0.6875rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mobileServices {
+  display: grid;
+  gap: 0.25rem;
+
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.25rem 1rem;
+  }
+}
+
+.mobileServiceLink {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: var(--radius-tm-md);
+  color: var(--color-tm-navy);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  svg {
+    flex: 0 0 auto;
+    color: var(--color-tm-blue);
+  }
+}
+
+.mobileContact {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-tm-border-soft);
+}
+
+.mobileContactItem {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--color-tm-navy);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  svg {
+    flex: 0 0 auto;
+    color: var(--color-tm-blue);
+  }
+}
+
+.mobileCta {
+  width: 100%;
+}
+
 .headerScrolled {
   .mainBar {
     height: 4rem;
   }
 
-  .logoHeader {
-    height: 40.3px;
+  @media (min-width: 768px) {
+    .logoHeader {
+      height: 40.3px;
+    }
   }
 
   .nav {
@@ -213,5 +392,11 @@
 @media (min-width: 1024px) {
   .nav {
     display: flex;
+  }
+
+  // The inline nav covers everything the panel offered.
+  .menuToggle,
+  .mobilePanel {
+    display: none;
   }
 }

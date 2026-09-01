@@ -4,6 +4,8 @@
   position: relative;
   isolation: isolate;
   padding: 40px 0;
+  // Clears the iOS home-bar / gesture area in landscape and on notched phones.
+  padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
   color: #fff;
   background: linear-gradient(
     135deg,
@@ -212,6 +214,12 @@
   &:hover {
     text-decoration: underline;
   }
+
+  // Text links sit ~24px tall; give thumbs a full-height row to aim at.
+  @include touch {
+    min-height: 44px;
+    align-items: center;
+  }
 }
 
 .serviceIconWrap {
@@ -238,6 +246,11 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  max-width: 100%;
+
+  @include touch {
+    min-height: 44px;
+  }
 }
 
 .contactIcon {
@@ -267,6 +280,7 @@
 
 .legalLinks {
   display: flex;
+  flex-wrap: wrap;
   gap: 24px;
 
   a {
@@ -276,6 +290,12 @@
 
     &:hover {
       color: #fff;
+    }
+
+    @include touch {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
     }
   }
 }

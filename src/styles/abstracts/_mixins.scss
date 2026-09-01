@@ -36,3 +36,15 @@
 @mixin reduced-motion {
   @media (prefers-reduced-motion: reduce) { @content; }
 }
+
+// Touch-first pointers (phones, tablets). Use for hit-area sizing and to skip
+// hover-only affordances — never for layout, which belongs in width queries.
+@mixin touch {
+  @media (hover: none) and (pointer: coarse) { @content; }
+}
+
+// Phones held sideways: plenty of width, almost no height. Full-viewport
+// blocks have to collapse here or the content is unreachable.
+@mixin short-landscape {
+  @media (max-height: 560px) and (orientation: landscape) { @content; }
+}

@@ -8,6 +8,25 @@ import Image from "next/image";
 import { mainServices } from "@/data/services";
 import styles from "./ServicesSection.module.scss";
 
+// Pre-rendered widths from scripts/optimize-images.mjs. `output: 'export'` plus
+// `images.unoptimized` means next/image can't build a srcset, so the showcase
+// illustrations are served as a plain <img> against these variants — a phone
+// pulls ~20 KB per card instead of the 1-1.5 MB PNG master.
+const SHOWCASE_VARIANT_WIDTHS = [320, 480, 640] as const;
+
+function showcaseImageSources(image: string) {
+  const base = image.replace(/^\/images\/(.+)\.[^.]+$/, '$1');
+  const variant = (width: number) =>
+    `/images/responsive/${base}-${width}.webp`;
+
+  return {
+    src: variant(SHOWCASE_VARIANT_WIDTHS[SHOWCASE_VARIANT_WIDTHS.length - 1]),
+    srcSet: SHOWCASE_VARIANT_WIDTHS.map(
+      (width) => `${variant(width)} ${width}w`,
+    ).join(', '),
+  };
+}
+
 const showcaseServices: Record<
   number,
   {
@@ -162,13 +181,18 @@ export function ServicesSection() {
                       </p>
                     </div>
                     <div className={styles.serviceShowcaseImageWrap}>
-                      <Image
-                        src={showcase.image}
+                      {/* eslint-disable-next-line @next/next/no-img-element --
+                          next/image is a no-op here (images.unoptimized); the
+                          srcset comes from scripts/optimize-images.mjs. */}
+                      <img
+                        {...showcaseImageSources(showcase.image)}
+                        sizes="(min-width: 1200px) 270px, (min-width: 600px) 36vw, 58vw"
                         alt=""
                         aria-hidden
                         width={showcase.imageWidth}
                         height={showcase.imageHeight}
-                        sizes="(min-width: 1200px) 270px, (min-width: 600px) 36vw, 58vw"
+                        loading="lazy"
+                        decoding="async"
                         className={styles.serviceShowcaseImage}
                       />
                     </div>

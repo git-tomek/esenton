@@ -31,7 +31,18 @@
   display: flex;
   align-items: center;
   gap: 20px;
+  min-width: 0;
   padding: 18px 0;
+
+  // A 64px medallion plus a 20px gap left roughly 150px for the copy on a
+  // 320px screen, which broke almost every heading across two lines.
+  @media (max-width: 400px) {
+    gap: 14px;
+  }
+
+  > div {
+    min-width: 0;
+  }
 
   &:not(:first-child) {
     border-top: 1px solid $color-border-soft;
@@ -80,11 +91,21 @@
   color: $color-blue;
   border-radius: 999px;
   background: $color-blue-soft;
+
+  @media (max-width: 400px) {
+    width: 48px;
+    height: 48px;
+  }
 }
 
 .icon {
   width: 32px;
   height: 32px;
+
+  @media (max-width: 400px) {
+    width: 26px;
+    height: 26px;
+  }
 }
 
 .title {

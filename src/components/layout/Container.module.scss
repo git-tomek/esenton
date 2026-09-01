@@ -1,0 +1,28 @@
+// Single choke point for the page's horizontal rhythm. Every section routes
+// its content through here, so this is also where the landscape safe-area
+// insets are absorbed (see `viewportFit: 'cover'` in src/app/layout.tsx).
+//
+// The gutter values match the Tailwind utilities this component used before
+// (px-5 / sm:px-6 / lg:px-8) at Tailwind's 640px and 1024px breakpoints, so
+// the desktop layout is unchanged.
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-left: max(1.25rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1.25rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: max(2rem, env(safe-area-inset-left, 0px));
+    padding-right: max(2rem, env(safe-area-inset-right, 0px));
+  }
+}

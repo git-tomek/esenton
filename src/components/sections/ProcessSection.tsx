@@ -35,17 +35,43 @@ export function ProcessSection() {
       if (!wavePath || !activePath || !pulse || !pulseHalo) return;
 
       const mm = gsap.matchMedia();
+
+      // The stepper fades in everywhere.
       mm.add('(prefers-reduced-motion: no-preference)', () => {
+        gsap.set(steps, { willChange: 'transform' });
+        gsap.set(steps, { autoAlpha: 0, y: 22, scale: 0.94 });
+
+        const intro = gsap.timeline({
+          defaults: { ease: 'power3.out', duration: 0.72 },
+        });
+
+        intro.to(steps, {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.09,
+          clearProps: 'visibility',
+        });
+
+        return () => {
+          intro.kill();
+        };
+      });
+
+      // The travelling pulse follows the connector wave, which is
+      // `display: none` below 1100px (see ProcessSection.module.scss). Running
+      // it there meant a permanent rAF loop measuring a hidden SVG path and
+      // recolouring off-screen nodes on every phone that loaded the page.
+      const desktopWave =
+        '(min-width: 1101px) and (prefers-reduced-motion: no-preference)';
+
+      mm.add(desktopWave, () => {
         const waveLength = wavePath.getTotalLength();
         const progress = { value: 0 };
         const pulseTargets = [pulse, pulseHalo];
         const duration = 12.17;
         const travelStart = 0.35;
 
-        gsap.set(steps, {
-          willChange: 'transform',
-        });
-        gsap.set(steps, { autoAlpha: 0, y: 22, scale: 0.94 });
         gsap.set(activePath, {
           strokeDasharray: waveLength,
           strokeDashoffset: waveLength,
@@ -62,18 +88,6 @@ export function ProcessSection() {
         };
 
         movePulse();
-
-        const intro = gsap.timeline({
-          defaults: { ease: 'power3.out', duration: 0.72 },
-        });
-
-        intro.to(steps, {
-          autoAlpha: 1,
-          y: 0,
-          scale: 1,
-          stagger: 0.09,
-          clearProps: 'visibility',
-        });
 
         const haloTween = gsap.to(pulseHalo, {
           attr: { r: 17 },
@@ -193,7 +207,6 @@ export function ProcessSection() {
         });
 
         return () => {
-          intro.kill();
           haloTween.kill();
           processLoop.kill();
         };
@@ -230,13 +243,21 @@ export function ProcessSection() {
       steps.forEach((step) => {
         const onEnter = () => liftStep(step);
         const onLeave = () => settleStep(step);
-        step.addEventListener('mouseenter', onEnter);
-        step.addEventListener('mouseleave', onLeave);
+        // A touch screen fires `mouseenter` on tap but never `mouseleave`, so
+        // the card would stay lifted; keep the hover lift for real pointers and
+        // leave keyboard focus working everywhere.
+        mm.add('(hover: hover)', () => {
+          step.addEventListener('mouseenter', onEnter);
+          step.addEventListener('mouseleave', onLeave);
+
+          return () => {
+            step.removeEventListener('mouseenter', onEnter);
+            step.removeEventListener('mouseleave', onLeave);
+          };
+        });
         step.addEventListener('focusin', onEnter);
         step.addEventListener('focusout', onLeave);
         handlers.push(() => {
-          step.removeEventListener('mouseenter', onEnter);
-          step.removeEventListener('mouseleave', onLeave);
           step.removeEventListener('focusin', onEnter);
           step.removeEventListener('focusout', onLeave);
         });

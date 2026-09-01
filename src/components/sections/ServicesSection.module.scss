@@ -38,9 +38,18 @@ $service-card-height: 168px;
   background: $color-blue-soft;
 }
 
+// The heading is centred and the brush stroke below it hangs off the right
+// edge, so the container has to reserve room for that overhang. Centring splits
+// the reserved width between both sides, which is why the overhang used on
+// phones is half of what is reserved — that makes the stroke's right edge land
+// exactly on the content box, never past it.
+$highlight-reserve: 60px;
+$highlight-overhang: 30px;
+
 .highlightBlueWrap {
   position: relative;
   display: inline-block;
+  max-width: calc(100% - #{$highlight-reserve});
   z-index: 2;
 }
 
@@ -49,23 +58,31 @@ $service-card-height: 168px;
   z-index: 2;
   margin: 0;
   color: $color-navy;
-  font-size: 36px;
+  font-size: clamp(26px, 7.5vw, 36px);
   font-weight: 900;
   line-height: 1.05;
   letter-spacing: -0.035em;
+  text-wrap: balance;
 }
 
+// Decorative brush stroke under the heading. Width and offset track the heading
+// on small screens; from `md` up the title is nowhere near the container edge,
+// so the original 225px / -60px framing is restored untouched.
 .highlightBlueSvg {
   position: absolute;
-  width: 77%;
+  z-index: 0;
+  right: -#{$highlight-overhang};
+  bottom: -18px;
+  width: min(225px, 74%);
   height: auto;
+  margin-top: 0;
   pointer-events: none;
   user-select: none;
-  z-index: 0;
-  margin-top: 0;
-  width: 225px;
-  bottom: -18px;
-  right: -60px;
+
+  @include up(md) {
+    right: -#{$highlight-reserve};
+    width: 225px;
+  }
 }
 
 .servicesGrid {

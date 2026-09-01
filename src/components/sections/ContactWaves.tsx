@@ -81,14 +81,21 @@ export function ContactWaves() {
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;
+    // Phones and tablets run this on a battery, often at DPR 3. Antialiasing a
+    // field of soft-edged points buys nothing, and the extra pixel ratio costs
+    // 2-4x the fragment work for a decorative background.
+    const isSmallScreen = window.matchMedia('(max-width: 900px)').matches;
 
     const renderer = new THREE.WebGLRenderer({
       alpha: true,
-      antialias: true,
+      antialias: !isSmallScreen,
       powerPreference: 'low-power',
     });
     renderer.setClearColor(0x000000, 0);
-    const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    const pixelRatio = Math.min(
+      window.devicePixelRatio || 1,
+      isSmallScreen ? 1.5 : 2,
+    );
     renderer.setPixelRatio(pixelRatio);
 
     const scene = new THREE.Scene();
@@ -156,6 +163,9 @@ export function ContactWaves() {
         camera.bottom = -1 / aspect;
       }
       camera.updateProjectionMatrix();
+      // A still frame has to be repainted after a rotation or a browser-bar
+      // resize; the animated path repaints on the next tick anyway.
+      if (prefersReducedMotion) renderer.render(scene, camera);
     }
     resize();
 
@@ -173,13 +183,57 @@ export function ContactWaves() {
     if (prefersReducedMotion) {
       uniforms.uTime.value = 0;
       renderer.render(scene, camera);
-    } else {
+
+      return () => {
+        resizeObserver.disconnect();
+        geometry.dispose();
+        material.dispose();
+        renderer.dispose();
+        if (renderer.domElement.parentNode === mount) {
+          mount.removeChild(renderer.domElement);
+        }
+      };
+    }
+
+    // The contact section is the last block on the page, so on a phone this
+    // loop would otherwise burn GPU cycles for the entire visit. Run it only
+    // while the canvas is actually on screen and the tab is in the foreground.
+    let isOnScreen = false;
+
+    function play() {
+      if (raf || !isOnScreen || document.hidden) return;
       raf = requestAnimationFrame(tick);
     }
 
-    return () => {
+    function pause() {
       cancelAnimationFrame(raf);
+      raf = 0;
+    }
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isOnScreen = entry.isIntersecting;
+        if (isOnScreen) play();
+        else pause();
+      },
+      { rootMargin: '96px' },
+    );
+    visibilityObserver.observe(mount);
+
+    const onDocumentVisibilityChange = () => {
+      if (document.hidden) pause();
+      else play();
+    };
+    document.addEventListener('visibilitychange', onDocumentVisibilityChange);
+
+    return () => {
+      pause();
+      visibilityObserver.disconnect();
       resizeObserver.disconnect();
+      document.removeEventListener(
+        'visibilitychange',
+        onDocumentVisibilityChange,
+      );
       geometry.dispose();
       material.dispose();
       renderer.dispose();

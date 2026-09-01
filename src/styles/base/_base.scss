@@ -3,3 +3,23 @@
 //
 // Add only SCSS-driven globals here. Component-level styles belong in
 // *.module.scss files co-located with the component.
+
+// Height of the fixed <header>, published as a custom property so sections can
+// reserve space for it without measuring anything in JavaScript. Mirrors the
+// heights in Header.module.scss: main bar only on phones, main bar + top bar
+// once the top bar becomes visible at 768px.
+:root {
+  --tm-header-height: 4rem;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --tm-header-height: 7.375rem;
+  }
+}
+
+// Long unbroken strings (URLs, e-mail addresses, compound Polish words) must
+// not be able to widen their container on a 320px screen.
+body {
+  overflow-wrap: break-word;
+}
