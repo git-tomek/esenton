@@ -1,7 +1,7 @@
 @use "abstracts" as *;
 
-// Both footer artworks are single-colour SVGs, so they are used as masks and the
-// brand gradient shows through the shape. This can't be a fill inside the files:
+// The plane artwork is a single-colour SVG, so it is used as a mask and the
+// brand gradient shows through the shape. This can't be a fill inside the file:
 // an SVG loaded as an image is an isolated document, so the --color-tm-* custom
 // properties never reach into it.
 //
@@ -28,6 +28,10 @@
 }
 
 .footer {
+  // Screen instead of the default multiply: this navy is dark enough that
+  // multiplying the noise into it just crushes the gradient towards black.
+  @include grain(0.105, screen);
+
   position: relative;
   isolation: isolate;
   padding: 40px 0;
@@ -158,9 +162,11 @@
 .footerGrid {
   display: grid;
   gap: 40px;
+  text-align: center;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 2fr 1fr;
+    text-align: left;
   }
 }
 
@@ -171,34 +177,48 @@
 
 .logo {
   width: auto;
-  height: 67px;
-  margin-left: 10px;
+  // Keeps the wordmark inside the container padding on 320px-wide phones.
+  height: clamp(48px, 16vw, 67px);
+
+  @media (min-width: 768px) {
+    margin-left: 10px;
+  }
 }
 
 .description {
   max-width: 320px;
-  margin: 20px 0 0;
+  margin: 20px auto 0;
   color: #b9c6e4;
   font-size: 14px;
   line-height: 1.7;
+
+  @media (min-width: 768px) {
+    margin-inline: 0;
+  }
 }
 
 .planeWrap {
   display: flex;
   align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 110px;
   margin-top: 10px;
-  padding-left: 30px;
   // The shadow lives on the wrapper because a filter on the masked element
   // would be clipped away by that element's own mask.
   filter: drop-shadow(0 16px 24px rgba(0, 0, 0, 0.22));
+
+  @media (min-width: 768px) {
+    justify-content: flex-start;
+    padding-left: 30px;
+  }
 }
 
 .plane {
   @include footer-artwork("/images/plane.svg");
 
   width: 187px;
+  max-width: 100%;
   // Matches the source viewBox (145.01 x 56.73) — the same ratio the intrinsic
   // SVG size already resolved to, so the 73px layout height is unchanged.
   aspect-ratio: 145.01 / 56.73;
@@ -212,14 +232,23 @@
 }
 
 .servicesColumns {
+  // Sizing the track to its content and centring the track (rather than each
+  // list) keeps every chevron on one vertical line while the block as a whole
+  // sits in the middle of the footer.
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, max-content);
+  justify-content: center;
   gap: 0 24px;
   color: rgba(255, 255, 255, 0.72);
   font-size: 14px;
 
   @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, max-content));
+  }
+
+  @media (min-width: 768px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: start;
   }
 }
 
@@ -229,6 +258,7 @@
   gap: 8px;
   margin: 0;
   padding: 0;
+  text-align: left;
   list-style: none;
 }
 
@@ -268,9 +298,19 @@
 .contactList {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
+  // Same trick as the service lists: centre the block, keep the icons aligned.
+  width: fit-content;
+  margin-inline: auto;
   color: $color-blue-light;
   font-size: 14px;
+  text-align: left;
+
+  @media (min-width: 768px) {
+    width: auto;
+    margin-inline: 0;
+  }
 }
 
 .contactItem {
@@ -294,24 +334,38 @@
 }
 
 .slogan {
-  @include footer-artwork("/images/slogan.svg");
-
+  display: block;
   width: 100%;
   max-width: 121px;
-  // Matches the source viewBox (177.7 x 126.6) so the box keeps the same
-  // height the intrinsic <Image> dimensions used to give it.
-  aspect-ratio: 177.7 / 126.6;
+  margin: 0 auto;
+  // Unlike .plane this artwork carries its own colours — white lettering with
+  // the blue gradient on "Rozwój" — so it is drawn rather than used as a mask.
+  // Variants come from scripts/optimize-images.mjs; the 1361px master would be
+  // ~11x the size this ever renders at.
+  background: image-set(
+      url("/images/responsive/slogan-256.webp") 1x,
+      url("/images/responsive/slogan-384.webp") 2x
+    )
+    no-repeat center / contain;
+  // Matches the master's 1361 x 1156 pixels.
+  aspect-ratio: 1361 / 1156;
+
+  @media (min-width: 768px) {
+    margin-inline: 0;
+  }
 }
 
 .bottomBar {
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: space-between;
   gap: 16px;
   margin-top: 20px;
   padding-top: 20px;
   color: rgba(255, 255, 255, 0.72);
   font-size: 14px;
+  text-align: center;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
 
   p {
@@ -320,12 +374,14 @@
 
   @media (min-width: 768px) {
     flex-direction: row;
+    text-align: left;
   }
 }
 
 .legalLinks {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 24px;
 
   a {

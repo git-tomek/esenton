@@ -17,12 +17,19 @@ $color-green-highlight: var(--color-tm-green-highlight);
 $color-cream: var(--color-tm-cream);
 $color-cream-soft: var(--color-tm-cream-soft);
 $color-text: var(--color-tm-text);
+// Descriptions, leads and section subtitles — softer than $color-text but
+// darker and warmer than the $color-muted used for UI labels.
+$color-copy: var(--color-tm-copy);
 $color-muted: var(--color-tm-muted);
 $color-muted-dark: var(--color-tm-muted-dark);
 $color-bg: var(--color-tm-background);
 $color-surface: var(--color-tm-surface);
 $color-border: var(--color-tm-border);
 $color-border-soft: var(--color-tm-border-soft);
+
+// Typography
+$font-sans: var(--font-tm-sans);
+$font-display: var(--font-tm-display);
 
 // Radii
 $radius-sm: var(--radius-tm-sm);

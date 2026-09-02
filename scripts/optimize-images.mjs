@@ -33,11 +33,21 @@ const SERVICE_WIDTHS = [320, 480, 640];
 // the copy scrim covers the left half, so 1600px is ample even at 2x.
 const HERO_WIDTHS = [640, 960, 1280, 1600];
 
+// Footer slogan lettering. Capped at 121 CSS px by the layout, so 384px still
+// covers a 3x display with headroom while the 1361px master stays out of the
+// bundle.
+const SLOGAN_WIDTHS = [256, 384];
+
 const JOBS = [
   {
     source: 'bg-hero.jpg',
     widths: HERO_WIDTHS,
     quality: 74,
+  },
+  {
+    source: 'slogan.png',
+    widths: SLOGAN_WIDTHS,
+    quality: 85,
   },
   ...Array.from({ length: 12 }, (_, index) => ({
     source: `service_t_${String(index + 1).padStart(2, '0')}.png`,

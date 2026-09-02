@@ -1,6 +1,8 @@
 @use "abstracts" as *;
 
 .technologiesSection {
+  @include grain;
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -76,7 +78,7 @@
 .sectionDescription {
   max-width: 680px;
   margin: 14px 0 0;
-  color: $color-muted;
+  color: $color-copy;
   font-size: clamp(14px, 1.5vw, 16px);
   font-weight: 700;
   line-height: 1.6;
@@ -381,7 +383,7 @@
   p:not(.cardEyebrow) {
     max-width: 680px;
     margin: 9px 0 0;
-    color: $color-muted;
+    color: $color-copy;
     font-size: 14px;
     font-weight: 700;
     line-height: 1.58;

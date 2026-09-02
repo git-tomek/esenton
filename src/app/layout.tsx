@@ -3,7 +3,7 @@ import "@/styles/globals.scss";
 
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import { ThemeProvider } from "@mui/material/styles";
@@ -15,6 +15,15 @@ const inter = Inter({
   display: "swap",
   axes: ["opsz"],
   style: ["normal", "italic"],
+});
+
+// Display face for h1/h2 only. Its variable weight axis tops out at 700, so
+// headings asking for 900 render at Space Grotesk's bold rather than being
+// synthetically emboldened.
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin", "latin-ext"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -40,7 +49,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl" className={`${inter.variable} h-full antialiased`}>
+    <html
+      lang="pl"
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">
         <Script
           id="cookieyes"

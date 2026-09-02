@@ -1,6 +1,8 @@
 @use "abstracts" as *;
 
 .processSection {
+  @include grain;
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -310,7 +312,7 @@
 .stepDescription {
   max-width: 198px;
   margin: 10px auto 0;
-  color: $color-muted;
+  color: $color-copy;
   font-size: 13.5px;
   line-height: 1.58;
 }

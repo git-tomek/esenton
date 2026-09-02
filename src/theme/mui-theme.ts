@@ -24,13 +24,15 @@ export const muiTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'var(--font-inter), system-ui, sans-serif',
+    fontFamily: tokens.font.sans,
     h1: {
+      fontFamily: tokens.font.display,
       fontWeight: 900,
       letterSpacing: '-0.045em',
       lineHeight: 1.05,
     },
     h2: {
+      fontFamily: tokens.font.display,
       fontWeight: 900,
       letterSpacing: '-0.035em',
       lineHeight: 1.12,

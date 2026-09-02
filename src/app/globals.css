@@ -25,6 +25,7 @@ h1,
 h2,
 h1[class],
 h2[class] {
+  font-family: var(--font-tm-display);
   background-image:
     linear-gradient(
       135deg,

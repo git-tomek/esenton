@@ -1,6 +1,8 @@
 @use "abstracts" as *;
 
 .contactSection {
+  @include grain;
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -53,7 +55,7 @@
 .lead {
   max-width: 380px;
   margin: 14px 0 0;
-  color: $color-muted;
+  color: $color-copy;
   font-size: 13px;
   font-weight: 650;
   line-height: 1.55;

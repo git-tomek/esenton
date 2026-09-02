@@ -13,6 +13,8 @@ $service-card-height: 168px;
 }
 
 .servicesSection {
+  @include grain;
+
   position: relative;
   isolation: isolate;
   padding: 32px 0 55px;
@@ -253,7 +255,7 @@ $highlight-overhang: 30px;
 
 .serviceShowcaseDescription {
   margin: 7px 0 0;
-  color: $color-muted;
+  color: $color-copy;
   font-size: clamp(11px, 3.05vw, 12.5px);
   font-weight: 700;
   line-height: 1.4;
@@ -383,7 +385,7 @@ $highlight-overhang: 30px;
 .serviceDescription {
   flex: 1;
   margin: 12px 0 0;
-  color: $color-muted;
+  color: $color-copy;
   font-size: 14px;
   line-height: 1.5rem;
 }

@@ -180,7 +180,30 @@
   font-size: clamp(26px, 8vw, 33px);
   font-weight: 800;
   line-height: 1.02;
+  // "strony, sklepy internetowe" measures 429px of the 430px column at the
+  // default tracking, so the row only holds together with the light negative
+  // tracking below (412px). Loosening this re-breaks the second row.
+  letter-spacing: -0.02em;
   margin: 0 0 clamp(24px, 6vw, 40px);
+  // The underlined phrase is an inline-block (see .highlightWrap), so it is an
+  // unbreakable ~310px unit at the end of the heading. Greedy line breaking
+  // reacts badly to that: a few pixels of extra text width and it starts
+  // dumping single words onto their own line — measured at a 415px column it
+  // produced rows of 399/227/270/281px. Balancing evens the rows out instead
+  // and is a no-op whenever greedy breaking already fills them.
+  text-wrap: balance;
+}
+
+// `text-wrap: balance` on `.title` will still split an inline `nowrap` span
+// (Safari especially). An inline-block is an unbreakable box, so each phrase
+// keeps its own row. Below `sm` the 33px metrics overflow the column, so the
+// spans stay inline and wrap naturally.
+.titleLead,
+.titleLine2 {
+  @include up(sm) {
+    display: inline-block;
+    white-space: nowrap;
+  }
 }
 
 .titleAccent {
@@ -190,23 +213,28 @@
 .lead {
   max-width: 35rem;
   margin-top: 1.5rem;
-  color: var(--color-tm-muted);
+  color: $color-copy;
   font-size: clamp(1rem, 4.4vw, 1.125rem);
   line-height: 1.45;
   margin-bottom: 15px;
 }
 
+// Buttons and benefit chips size themselves to their labels and wrap onto as
+// many rows as they need, so a narrow phone never gets edge-to-edge blocks.
 .actions {
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
   margin-top: 2rem;
 }
 
 .benefits {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
   margin-top: clamp(1.5rem, 5vw, 2.25rem);
 }
 
@@ -215,14 +243,20 @@
   align-items: center;
   gap: 0.5rem;
   min-width: 0;
+  padding: 0.4375rem 0.875rem 0.4375rem 0.625rem;
   color: var(--color-tm-navy);
   font-size: 12px;
   font-weight: 700;
-  background: #f5deb378;
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #0a45db;
   line-height: 1.35;
+  border: 1px solid color-mix(in srgb, $color-blue 18%, transparent);
+  // Exactly a pill at the single-line height; stays a tidy rounded rect when a
+  // long label wraps to two lines on a 320px screen.
+  border-radius: 8px;
+  // The chips can drift over the photo on the right of small screens, so they
+  // carry their own near-opaque backing rather than relying on the scrim.
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 1px 2px rgba(10, 69, 219, 0.06);
 }
 
 .benefitIcon {
@@ -277,13 +311,12 @@
   -webkit-text-fill-color: transparent;
 }
 
+// From the tablet width up the hero copy has room to stay on one axis, so the
+// CTA cluster lines up with the heading again.
 @media (min-width: 640px) {
-  .actions {
-    flex-direction: row;
-  }
-
+  .actions,
   .benefits {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: flex-start;
   }
 }
 

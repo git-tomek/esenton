@@ -23,9 +23,12 @@ export function HeroSection() {
             Projektowanie i development
           </div>
           <h1 className={styles.title}>
-          Projektujemy i wdrażamy strony,{" "}
+            <span className={styles.titleLead}>Projektujemy i wdrażamy</span>{" "}
+            <span className={styles.titleLine2}>
+              strony, <span className={styles.titleAccent}>sklepy internetowe</span>
+            </span>{" "}
             <span className={styles.titleAccent}>
-            sklepy internetowe oraz aplikacje webowe{" "}
+            oraz aplikacje webowe{" "}
               <span className={styles.highlightWrap}>
                 <span className={styles.highlightLabel}>dla firm i instytucji.</span>
               </span>

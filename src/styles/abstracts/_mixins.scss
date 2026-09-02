@@ -37,6 +37,39 @@
   @media (prefers-reduced-motion: reduce) { @content; }
 }
 
+// Static film grain for the large gradient section backgrounds — the CSS
+// equivalent of Photoshop's Add Noise. The tile is an inline SVG `feTurbulence`
+// rather than a bitmap, so it costs no extra request and stays crisp at any
+// device pixel ratio. `stitchTiles` makes the 200px tile seamless when repeated.
+//
+// Blend mode is the setting that actually decides whether anything shows up.
+// `overlay` and `soft-light` compress towards the extremes, so on backgrounds
+// as pale as these sections (#FFF → #DBE7F8) they cancel out almost entirely —
+// measured side by side, overlay at 0.07 was indistinguishable from no grain.
+// `multiply` darkens by the noise and stays visible on light backgrounds;
+// `screen` is its counterpart for the dark footer, where multiply would just
+// crush the navy to black. Rough scale for $opacity with multiply: 0.12 barely
+// there, 0.18 delicate, 0.25 clearly visible, 0.35+ heavy and starts greying
+// out the gradient's own hue.
+//
+// The host element must already establish a stacking context (every section
+// root here sets `isolation: isolate`). The layer sits at `z-index: -1` so it
+// blends with the element's own background only, and never tints the copy,
+// cards or images stacked above it.
+@mixin grain($opacity: 0.175, $blend: multiply, $tile: 200px) {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: $tile $tile;
+    opacity: $opacity;
+    mix-blend-mode: $blend;
+  }
+}
+
 // Touch-first pointers (phones, tablets). Use for hit-area sizing and to skip
 // hover-only affordances — never for layout, which belongs in width queries.
 @mixin touch {
