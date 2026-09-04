@@ -1,8 +1,6 @@
 export const industries = [
-  'gabinety fizjoterapii',
   'gabinety stomatologiczne',
   'salony beauty',
-  'kliniki weterynaryjne',
   'kluby fitness',
   'szkoły językowe',
   'pracownie architektoniczne',
@@ -12,9 +10,13 @@ export const industries = [
   'restauracje',
   'firmy transportowe',
   'pensjonaty i apartamenty',
+  'kliniki weterynaryjne',
   'mechanicy i detailing',
   'ogrodnictwo',
   'biura nieruchomości',
   'fotografowie',
   'przedszkola',
+  'kliniki medyczne',
+  'hotele i pensjonaty',
+  'muzea, instytucje naukowe i ośrodki kultury'
 ] as const;
