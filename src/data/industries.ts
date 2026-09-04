@@ -11,6 +11,7 @@ export const industries = [
   'firmy transportowe',
   'pensjonaty i apartamenty',
   'kliniki weterynaryjne',
+  'producenti odzieży',
   'mechanicy i detailing',
   'ogrodnictwo',
   'biura nieruchomości',
@@ -18,5 +19,6 @@ export const industries = [
   'przedszkola',
   'kliniki medyczne',
   'hotele i pensjonaty',
+  'producenci mebli',
   'muzea, instytucje naukowe i ośrodki kultury'
 ] as const;
