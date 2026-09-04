@@ -281,8 +281,8 @@
     width: min(210px, 78%);
     aspect-ratio: 210 / 36;
     height: auto;
-    bottom: -22px;
-    right: min(50px, 18%);
+    right: min(30px, 18%);
+    bottom: -27px;
   }
 
   @include up(lg) {
