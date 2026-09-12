@@ -60,6 +60,18 @@ export default function RootLayout({
           src="https://cdn-cookieyes.com/client_data/07f615b71c43be541676d20952660c06/script.js"
           strategy="beforeInteractive"
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XY2X2SNM88"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-XY2X2SNM88');
+          `}
+        </Script>
         <AppRouterCacheProvider options={{ key: "mui" }}>
           <ThemeProvider theme={muiTheme}>
             <CssBaseline />
