@@ -1,10 +1,11 @@
 import "./globals.css";
 import "@/styles/globals.scss";
 
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
-import CssBaseline from "@mui/material/CssBaseline";
 import { Inter, Space_Grotesk } from "next/font/google";
 import type { Metadata, Viewport } from "next";
+
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
+import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
 import { ThemeProvider } from "@mui/material/styles";
 import { muiTheme } from "@/theme/mui-theme";
@@ -19,7 +20,7 @@ const inter = Inter({
 
 // Display face for h1/h2 only. Its variable weight axis tops out at 700, so
 // headings asking for 900 render at Space Grotesk's bold rather than being
-// synthetically emboldened.
+// synthetically emboldened
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin", "latin-ext"],
